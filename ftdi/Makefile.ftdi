@@ -1,0 +1,15 @@
+PRG	=	ftdi
+OBJ	=	ftdi.o LIS302DL_ftdi.o
+LIBS	=	-lftdi -lm
+$(PRG): $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+	scp $(PRG) gpsa7:/opt/ftdi
+
+clean:
+	rm -f $(PRG) $(OBJ)
+
+tar:
+	rm -f ftdi.tar ftdi.tar.gz
+	tar cvf ftdi.tar ftdi.c LIS302DL_ftdi.c LIS302DL.h LIS302DL_ftdi.h Makefile.ftdi
+	gzip ftdi.tar
+

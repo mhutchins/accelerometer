@@ -1,0 +1,18 @@
+PRG	=	D2XX
+OBJ	=	harness_D2XX.o LIS302DL_D2XX.o filter.o
+LIBS	=	-lm -L/opt/libftd2xx -lftd2xx
+CFLAGS	=	-Wall -I/opt
+$(PRG): $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+	scp $(PRG) gpsa@gpsa71480:/tmp/D2XX || rm $(PRG)
+
+tar:
+	rm -f D2XX.tar D2XX.tar.gz
+	tar cvf D2XX.tar D2XX.c LIS302DL_D2XX.c LIS302DL.h LIS302DL_D2XX.h Makefile.D2XX filter.c filter.h
+	gzip D2XX.tar
+
+clean:
+	rm -f $(PRG) $(OBJ)
+
+
+D2XX.o: LIS302DL.h
